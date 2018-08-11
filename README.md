@@ -1,3 +1,9 @@
-用几条曲线绘制的一系列动画。<br/>
-效果图：
-![](https://github.com/No89757/HeartTree/raw/master/tree.PNG)
+Series of animations with some curves.<br/>
+
+Detail:
+http://www.jianshu.com/p/e936a7d371aa
+
+Preview：
+![](https://github.com/No89757/HeartTree/raw/master/tree.gif)
+
+
