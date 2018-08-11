@@ -5,14 +5,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
- * 花瓣
  * Created by John on 2017/8/26.
  */
 
 public class Bloom {
-    protected static float sMaxScale = 0.2f;
-    protected static int sMaxRadius = Math.round(sMaxScale * Heart.getRadius());
-    protected static float sFactor;
+    static float sMaxScale = 0.2f;
+    static int sMaxRadius = Math.round(sMaxScale * Heart.getRadius());
+    static float sFactor;
 
     /**
      * 初始化显示参数
@@ -29,10 +28,9 @@ public class Bloom {
     float angle;
     float scale;
 
-    // 调速器，控制开花动画的快慢
-    int governor = 0;
+    private int governor = 0;
 
-    public Bloom(Point position) {
+    Bloom(Point position) {
         this.position = position;
         this.color = Color.argb(CommonUtil.random(76, 255), 0xff, CommonUtil.random(255), CommonUtil.random(255));
         this.angle = CommonUtil.random(360);
@@ -51,7 +49,7 @@ public class Bloom {
         }
     }
 
-    protected float getRadius() {
+    float getRadius() {
         return Heart.getRadius() * scale;
     }
 

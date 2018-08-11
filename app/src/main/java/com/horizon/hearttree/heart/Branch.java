@@ -13,19 +13,19 @@ import java.util.LinkedList;
 public class Branch {
     private static final int BRANCH_COLOR = Color.rgb(35, 31, 32);
 
-    // control point
-    Point[] cp = new Point[3];
-    int currLen;
-    int maxLen;
-    float radius;
-    float part;
+    // control points
+    private Point[] cp = new Point[3];
+    private int currLen;
+    private int maxLen;
+    private float radius;
+    private float part;
 
-    float growX;
-    float growY;
+    private float growX;
+    private float growY;
 
     LinkedList<Branch> childList;
 
-    public Branch(int[] a){
+    Branch(int[] a){
         cp[0] = new Point(a[2], a[3]);
         cp[1] = new Point(a[4], a[5]);
         cp[2] = new Point(a[6], a[7]);

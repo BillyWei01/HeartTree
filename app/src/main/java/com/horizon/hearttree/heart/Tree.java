@@ -15,16 +15,15 @@ import java.util.List;
  */
 
 public class Tree {
-    //  花瓣数量和开花批次
+    // bloom params
     private static final int BLOOM_NUM = 320;
     private static final int BLOOMING_NUM = BLOOM_NUM / 8;
 
-    // 控制素材显示大小的缩放因子
+    // scale factor
     private static final float CROWN_RADIUS_FACTOR = 0.35f;
     private static final float STAND_FACTOR = (CROWN_RADIUS_FACTOR / 0.28f);
     private static final float BRANCHES_FACTOR = 1.3f * STAND_FACTOR;
 
-    // 动画步骤
     private enum Step {
         BRANCHES_GROWING,
         BLOOMS_GROWING,
@@ -34,35 +33,40 @@ public class Tree {
 
     private Step step = Step.BRANCHES_GROWING;
 
-    // 树枝的素材
+    // branches
     private float branchesDx;
     private float branchesDy;
     private LinkedList<Branch> growingBranches = new LinkedList<>();
 
-    // 树冠的素材
+    // crown of a tree
     private float bloomsDx;
     private float bloomsDy;
     private LinkedList<Bloom> growingBlooms = new LinkedList<>();
     private LinkedList<Bloom> cacheBlooms = new LinkedList<>();
 
-    // 树的快照
+    // snapshot
     private Paint snapshotPaint = new Paint();
     private Snapshot treeSnapshot;
 
-    // 控制快照偏移的变量
+    // offset
     private float snapshotDx;
     private float xOffset;
     private float maxXOffset;
 
-    // 飘落的花瓣
+    // falling blooms
     private float fMaxY;
     private List<FallingBloom> fallingBlooms = new ArrayList<>();
 
-    // 根据屏幕分辨率设定缩放因子
     private float resolutionFactor;
 
+    private boolean flag;
+    private OnReadyListener mListener;
 
-    public Tree(final int canvasWidth, final int canvasHeight) {
+    void setReadyListener(OnReadyListener listener){
+        mListener = listener;
+    }
+
+    Tree(final int canvasWidth, final int canvasHeight) {
         resolutionFactor = canvasHeight / 1080f;
 
         TreeMaker.init(canvasHeight, CROWN_RADIUS_FACTOR);
@@ -70,14 +74,13 @@ public class Tree {
 
         // snapshot
         float snapshotWidth = 816f * STAND_FACTOR * resolutionFactor;
-        float snapshotHeight = canvasHeight;
         treeSnapshot = new Snapshot(Bitmap.createBitmap(Math.round(snapshotWidth), canvasHeight, Bitmap.Config.ARGB_8888));
 
         // branches
         float branchesWidth = 375f * BRANCHES_FACTOR * resolutionFactor;
         float branchesHeight = 490f * BRANCHES_FACTOR * resolutionFactor;
         branchesDx = (snapshotWidth - branchesWidth) / 2f - 40f * STAND_FACTOR;
-        branchesDy = snapshotHeight - branchesHeight;
+        branchesDy = canvasHeight - branchesHeight;
         growingBranches.add(TreeMaker.getBranches());
 
         // blooms
@@ -96,10 +99,12 @@ public class Tree {
     }
 
     public void draw(Canvas canvas) {
-        // 绘制背景颜色
+        // background
         canvas.drawColor(0xffffffee);
 
-        // 绘制动画元素
+        //canvas.drawText("I love you", 100, 100, CommonUtil.getPaint());
+
+        // animations
         canvas.save();
         canvas.translate(snapshotDx + xOffset, 0);
         switch (step) {
@@ -116,6 +121,10 @@ public class Tree {
                 drawSnapshot(canvas);
                 break;
             case BLOOM_FALLING:
+                if(!flag && mListener != null){
+                    flag = true;
+                    mListener.onReady();
+                }
                 drawSnapshot(canvas);
                 drawFallingBlooms(canvas);
                 break;
@@ -125,7 +134,7 @@ public class Tree {
         canvas.restore();
     }
 
-    private final void drawSnapshot(Canvas canvas) {
+    private void drawSnapshot(Canvas canvas) {
         canvas.drawBitmap(treeSnapshot.bitmap, 0, 0, snapshotPaint);
     }
 
@@ -150,8 +159,6 @@ public class Tree {
             }
             treeSnapshot.canvas.restore();
 
-            // list 一边遍历一边插入会抛ConcurrentModificationException，
-            // 所以先将分支放入临时数组，遍历结束后再添加
             if (tempBranches != null) {
                 growingBranches.addAll(tempBranches);
             }
@@ -189,7 +196,7 @@ public class Tree {
         if (xOffset > maxXOffset) {
             step = Step.BLOOM_FALLING;
             Log.d("Tree", "draw moving snapshot finish");
-      } else {
+        } else {
             xOffset += 4f;
         }
     }

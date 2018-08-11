@@ -13,18 +13,15 @@ public class CommonUtil {
     private static final Paint PAINT = new Paint();
 
     /**
-     * 获取范围[0, n]的随机数
-     * @param
-     * @return
+     * ger random form range [0, n]
      */
     public static int random(int n){
         return RANDOM.nextInt(n+1);
     }
 
     /**
-     * 获取范围[m, n]的整数，
-     * 要求 m < n
-     * @return
+     * ger random form range [m, n]
+     * require m < n
      */
     public static int random(int m, int n){
         int d = n - m;
@@ -32,9 +29,8 @@ public class CommonUtil {
     }
 
     /**
-     * 获取范围[m, n]的浮点数，
-     * 要求 m < n
-     * @return
+     * ger float random form range [m, n]
+     * require m < n
      */
     public static float random(float m , float n){
         float d = n - m;

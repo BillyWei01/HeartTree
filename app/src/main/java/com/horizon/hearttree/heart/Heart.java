@@ -4,7 +4,6 @@ package com.horizon.hearttree.heart;
 import android.graphics.Path;
 
 /**
- * 心型线
  * Created by John on 2017/8/26.
  */
 

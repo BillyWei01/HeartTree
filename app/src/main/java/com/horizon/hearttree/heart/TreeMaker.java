@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * Created by John on 2017/8/26.
  */
-
 public class TreeMaker {
 
     private static float r;
@@ -15,9 +14,7 @@ public class TreeMaker {
     private static FallingBloom[] sRecycleBlooms = new FallingBloom[8];
 
     /**
-     * 初始化参数
-     * @param canvasHeight 画布的高度
-     * @param crownRadiusFactor 树冠半径的缩放因子
+     * init global param
      */
     public static void init(int canvasHeight, float crownRadiusFactor){
         r = canvasHeight * crownRadiusFactor;
@@ -25,11 +22,10 @@ public class TreeMaker {
     }
 
     /**
-     * 构造树枝
-     * @return 返回挂着树枝的树干
+     * @return truck with branches
      */
     public static Branch getBranches() {
-        // 共10列，分别是id, parentId, 贝塞尔曲线控制点(3点，6列)， 最大半径， 长度
+        // id, parentId, bezier control points(3 points, in 6 columns), max radius，length
         int[][] data = new int[][]{
                 {0, -1, 217, 490, 252, 60, 182, 10, 30, 100},
                 {1, 0, 222, 310, 137, 227, 22, 210, 13, 100},
@@ -56,10 +52,6 @@ public class TreeMaker {
         return branches[0];
     }
 
-    /**
-     * 回收花瓣
-     * @param bloom
-     */
     public static void recycleBloom(FallingBloom bloom){
         if(p < sRecycleBlooms.length){
             while (true){
@@ -73,7 +65,6 @@ public class TreeMaker {
             sRecycleBlooms[p++] =bloom;
         }
     }
-
 
     public static void fillFallingBlooms(List<FallingBloom> blooms, int num) {
         int n = 0;

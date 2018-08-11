@@ -10,7 +10,7 @@ import android.graphics.Canvas;
 public class Snapshot {
     Canvas canvas;
     Bitmap bitmap;
-    public Snapshot(Bitmap bitmap){
+    Snapshot(Bitmap bitmap){
         this.bitmap = bitmap;
         this.canvas = new Canvas(bitmap);
     }

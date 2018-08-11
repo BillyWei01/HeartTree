@@ -8,18 +8,17 @@ import android.graphics.PorterDuff;
 import android.util.Log;
 
 /**
- * 飘落的花瓣
  * Created by John on 2017/8/29.
  */
 
 public class FallingBloom extends Bloom {
-    float xSpeed;
-    float ySpeed;
+    private float xSpeed;
+    private float ySpeed;
 
     private Snapshot snapshot;
     private boolean validate;
 
-    public FallingBloom(Point position) {
+    FallingBloom(Point position) {
         super(position);
         color |= 0xFF000000;
         scale = sMaxScale;
